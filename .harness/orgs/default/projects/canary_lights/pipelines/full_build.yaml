@@ -11,6 +11,13 @@ pipeline:
           name: Setup Go
           template:
             uses: setupGo@1.0.0
+        - name: Update OS Prereqs
+          run:
+            shell: bash
+            script: |-
+              apt update
+              apt install libusb -y
+          id: Update_OS_Prereqs
         - id: downloadDependenciesLinux
           name: Download Dependencies on Linux
           run:
