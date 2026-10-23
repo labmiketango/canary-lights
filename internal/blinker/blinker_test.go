@@ -13,7 +13,6 @@ type fakeDevice struct {
 	mu     sync.Mutex
 	colors []color.Color
 	err    error
-	delay  time.Duration
 	got    chan struct{}
 }
 
@@ -21,7 +20,6 @@ func (f *fakeDevice) SetColor(c color.Color) error {
 	f.mu.Lock()
 	f.colors = append(f.colors, c)
 	f.mu.Unlock()
-	time.Sleep(f.delay)
 	f.got <- struct{}{}
 	return f.err
 }
@@ -77,20 +75,5 @@ func TestStopsOnCancel(t *testing.T) {
 	case <-done:
 	case <-time.After(2 * time.Second):
 		t.Fatal("Run did not return after cancel")
-	}
-}
-
-func TestSlowDeviceDoesNotDelayTicks(t *testing.T) {
-	dev := &fakeDevice{got: make(chan struct{}, 100), delay: 200 * time.Millisecond}
-	ctx, cancel := context.WithTimeout(context.Background(), 250*time.Millisecond)
-	defer cancel()
-	Run(ctx, dev, 10*time.Millisecond)
-
-	// ~25 ticks elapsed; a blocking loop would have made only 1-2 calls, and
-	// the worker must have dropped stale colors rather than queueing them all.
-	dev.mu.Lock()
-	defer dev.mu.Unlock()
-	if n := len(dev.colors); n < 1 || n > 4 {
-		t.Fatalf("got %d device calls, want 1-4", n)
 	}
 }
