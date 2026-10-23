@@ -18,7 +18,7 @@ pipeline:
               - name: Update OS Prereqs
                 run:
                   script: |-
-                    apt update
+                    #apt update
                     apt install libusb-1.0-0
                     apt install libusb-1.0-0-dev
                 id: Update_OS_Prereqs
@@ -55,4 +55,3 @@ pipeline:
             shell: bash
             script: |-
               go build -v ./...
-            
