@@ -96,3 +96,14 @@ pipeline:
                           registry: account.harnessImage
                           tag: latest
                           pull_policy: always
+        - name: Remediate Vulernabilities
+          id: Remediate_Vulernabilities
+          template:
+            uses: avra
+            with:
+              llm_connector: account.harnessLlm
+              model_name: global.anthropic.claude-opus-4-6-v1
+              validation_pipeline_id: scanpipeline
+              max_prs: 1
+              harness_base_url: https://app.harness.io
+              harness_token_secret: harnessoauthaccesstoken_github_1792742955337
