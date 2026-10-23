@@ -3,7 +3,7 @@
 ## Structure
 
 - `cmd/canary-lights/main.go`: opens the first usable LED device, handles SIGINT/SIGTERM, closes the device on exit (which turns the LED off).
-- `internal/blinker`: `Run(ctx, dev, interval)` sets green, then alternates green/red each interval until the context is cancelled. Color errors are logged and do not stop the loop. It depends on a one-method `Device` interface, so it is tested with a fake.
+- `internal/blinker`: `Run(ctx, dev, interval)` sets green, then alternates green/red each interval until the context is cancelled. Colors are sent from a separate goroutine (only the newest pending color is kept), so a slow device does not delay the 1s timing. Color errors are logged and do not stop the loop. It depends on a one-method `Device` interface, so it is tested with a fake.
 - `.vscode/launch.json`: Run, Debug and Test configurations.
 
 ## Dependency note
