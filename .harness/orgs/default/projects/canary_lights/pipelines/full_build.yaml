@@ -1,0 +1,46 @@
+pipeline:
+  stages:
+    - id: goBuildTestHostedLinuxStage_1
+      name: Go Build and Test on Harness Cloud (Linux)
+      clone:
+        enabled: true
+      cache:
+        enabled: true
+      steps:
+        - id: setupGo
+          name: Setup Go
+          template:
+            uses: setupGo@1.0.0
+        - id: downloadDependenciesLinux
+          name: Download Dependencies on Linux
+          run:
+            shell: bash
+            script: |-
+              go mod download
+        - id: buildLinux
+          name: Build on Linux
+          run:
+            shell: bash
+            script: |-
+              go build -v ./...
+        - id: testLinux
+          name: Test on Linux
+          run-test:
+            shell: bash
+            script: |-
+              # Install JUnit reporter
+              go install github.com/jstemmer/go-junit-report/v2@latest
+              export PATH="$(go env GOPATH)/bin:$PATH"
+              # Run tests with coverage and convert to JUnit
+              set -o pipefail
+              go test -v -coverprofile=coverage.out ./... 2>&1 | go-junit-report -set-exit-code > report.xml
+            intelligence:
+              disabled: true
+        - id: coverage
+          name: Upload Coverage
+          run:
+            shell: bash
+            script: |-
+              hcli cov upload
+            env:
+              CI_ENABLE_HCLI_FOR_TESTS: "true"
