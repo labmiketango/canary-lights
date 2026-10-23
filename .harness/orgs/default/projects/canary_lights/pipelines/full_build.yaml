@@ -7,8 +7,8 @@ pipeline:
       cache:
         enabled: true
       steps:
-        - name: parallel_group_12cb
-          id: parallel_group_12cb
+        - name: Prepare Environment
+          id: Prepare_Environment
           parallel:
             steps:
               - id: setupGo
@@ -38,8 +38,7 @@ pipeline:
           name: Go Vet
           run:
             shell: bash
-            script: |-
-              go vet
+            script: go vet ./...
         - id: testLinux
           name: Test on Linux
           run-test:
@@ -61,4 +60,39 @@ pipeline:
               hcli cov upload
             env:
               CI_ENABLE_HCLI_FOR_TESTS: "true"
-
+        - name: Security
+          id: Security
+          group:
+            steps:
+              - name: parallel_group_12a9
+                id: parallel_group_12a9
+                parallel:
+                  steps:
+                    - name: Semgrep Scan
+                      id: Semgrep_Scan
+                      sto:
+                        uses: semgrepStep
+                        with:
+                          mode: orchestration
+                          configuration: default
+                          type: repository
+                          detection: auto
+                          workspace: /harness
+                          log_level: info
+                          registry: account.harnessImage
+                          tag: latest
+                          pull_policy: always
+                    - name: Mythos Agent
+                      id: Mythos_Agent
+                      sto:
+                        uses: mythosAgentStep
+                        with:
+                          mode: orchestration
+                          configuration: scan
+                          type: repository
+                          detection: auto
+                          workspace: /harness
+                          log_level: info
+                          registry: account.harnessImage
+                          tag: latest
+                          pull_policy: always
