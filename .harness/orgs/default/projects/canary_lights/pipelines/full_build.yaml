@@ -7,18 +7,21 @@ pipeline:
       cache:
         enabled: true
       steps:
-        - id: setupGo
-          name: Setup Go
-          template:
-            uses: setupGo@1.0.0
-        - name: Update OS Prereqs
-          run:
-            shell: bash
-            script: |-
-              apt update
-              apt install libusb-1.0-0
-              apt install libusb-1.0-0-dev
-          id: Update_OS_Prereqs
+        - name: parallel_group_12cb
+          id: parallel_group_12cb
+          parallel:
+            steps:
+              - id: setupGo
+                name: Setup Go
+                template:
+                  uses: setupGo@1.0.0
+              - name: Update OS Prereqs
+                run:
+                  script: |-
+                    apt update
+                    apt install libusb-1.0-0
+                    apt install libusb-1.0-0-dev
+                id: Update_OS_Prereqs
         - id: downloadDependenciesLinux
           name: Download Dependencies on Linux
           run:
