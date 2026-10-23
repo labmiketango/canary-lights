@@ -64,8 +64,8 @@ pipeline:
           id: Security
           group:
             steps:
-              - name: parallel_group_12a9
-                id: parallel_group_12a9
+              - name: Code Scanner
+                id: Code_Scanner
                 parallel:
                   steps:
                     - name: Semgrep Scan
