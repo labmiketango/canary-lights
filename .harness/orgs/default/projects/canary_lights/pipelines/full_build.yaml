@@ -102,7 +102,7 @@ pipeline:
             uses: avra
             with:
               llm_connector: Anthropic_Lab_Mike_Tango
-              model_name: global.anthropic.claude-opus-4-6-v1
+              model_name: claude-fable-5-1
               validation_pipeline_id: scanpipeline
               max_prs: 1
               harness_base_url: https://app.harness.io
