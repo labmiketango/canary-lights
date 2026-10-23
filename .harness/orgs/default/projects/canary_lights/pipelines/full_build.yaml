@@ -34,6 +34,12 @@ pipeline:
             shell: bash
             script: |-
               go build -v ./...
+        - id: venLinux
+          name: Go Vet
+          run:
+            shell: bash
+            script: |-
+              go vet
         - id: testLinux
           name: Test on Linux
           run-test:
