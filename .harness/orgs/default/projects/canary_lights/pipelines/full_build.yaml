@@ -28,6 +28,12 @@ pipeline:
             shell: bash
             script: |-
               go mod download
+        - id: buildLinux
+          name: Build on Linux
+          run:
+            shell: bash
+            script: |-
+              go build -v ./...
         - id: testLinux
           name: Test on Linux
           run-test:
@@ -49,9 +55,4 @@ pipeline:
               hcli cov upload
             env:
               CI_ENABLE_HCLI_FOR_TESTS: "true"
-        - id: buildLinux
-          name: Build on Linux
-          run:
-            shell: bash
-            script: |-
-              go build -v ./...
+
