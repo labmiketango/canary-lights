@@ -8,7 +8,6 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
-	"time"
 
 	"github.com/boombuler/led"
 
@@ -32,7 +31,7 @@ func main() {
 	if dev == nil {
 		log.Fatal("no usable LED device found")
 	}
-	defer dev.Close() // closing turns the LED off
+	defer dev.Close()
 
-	blinker.Run(ctx, dev, time.Second)
+	blinker.Run(ctx, dev, blinker.DefaultConfig)
 }
