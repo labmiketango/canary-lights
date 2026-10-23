@@ -102,7 +102,7 @@ pipeline:
             uses: avra
             with:
               llm_connector: OpenAI_Lab_Mike_Tango
-              model_name: gpt-5.1-codex-mini
+              model_name: gpt-5.1-codex
               validation_pipeline_id: scanpipeline
               max_prs: 1
               harness_base_url: https://app.harness.io
