@@ -26,14 +26,12 @@ pipeline:
           name: Download Dependencies on Linux
           run:
             shell: bash
-            script: |-
-              go mod download
+            script: go mod download
         - id: buildLinux
           name: Build on Linux
           run:
             shell: bash
-            script: |-
-              go build -v ./...
+            script: go build -v ./...
         - id: venLinux
           name: Go Vet
           run:
@@ -56,8 +54,7 @@ pipeline:
           name: Upload Coverage
           run:
             shell: bash
-            script: |-
-              hcli cov upload
+            script: hcli cov upload
             env:
               CI_ENABLE_HCLI_FOR_TESTS: "true"
         - name: Security
@@ -101,8 +98,8 @@ pipeline:
           template:
             uses: avra
             with:
-              llm_connector: Anthropic_Lab_Mike_Tango
-              model_name: claude-opus-4-6
+              llm_connector: connector_OpenAI_84f9
+              model_name: rbrisita/qwen3-coder:ud-q4_K_XL
               validation_pipeline_id: scanpipeline
               max_prs: 1
               harness_base_url: https://app.harness.io
