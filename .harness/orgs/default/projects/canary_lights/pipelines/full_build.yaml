@@ -57,13 +57,6 @@ pipeline:
             script: hcli cov upload
             env:
               CI_ENABLE_HCLI_FOR_TESTS: "true"
-        - name: CI Autofix Agent
-          id: CI_Autofix_Agent
-          template:
-            uses: autofixAgent
-            with:
-              llm_connector: connector_OpenAI_84f9
-              model_name: openai/rbrisita/qwen3-coder:ud-q4_K_XL
         - name: Semgrep Scan
           id: Semgrep_Scan
           sto:
