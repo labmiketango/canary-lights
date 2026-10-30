@@ -18,9 +18,9 @@ pipeline:
               - name: Update OS Prereqs
                 run:
                   script: |-
-                    #apt update
-                    apt install libusb-1.0-0
-                    #apt install libusb-1.0-0-dev
+                    apt update
+                    apt install libusb-1.0-0 -y
+                    apt install libusb-1.0-0-dev -y
                 id: Update_OS_Prereqs
         - id: downloadDependenciesLinux
           name: Download Dependencies on Linux
