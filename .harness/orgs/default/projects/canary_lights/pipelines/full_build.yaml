@@ -100,7 +100,7 @@ pipeline:
             with:
               llm_connector: connector_OpenAI_84f9
               model_name: rbrisita/qwen3-coder:ud-q4_K_XL
-              validation_pipeline_id: scanpipeline
-              max_prs: 1
+              validation_pipeline_id: security_scan
+              max_prs: 2
               harness_base_url: https://app.harness.io
               harness_token_secret: harnessoauthaccesstoken_github_1792742955337
