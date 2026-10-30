@@ -57,3 +57,7 @@ pipeline:
             script: hcli cov upload
             env:
               CI_ENABLE_HCLI_FOR_TESTS: "true"
+        - name: Semgrep Scan
+          id: Semgrep_Scan
+          sto:
+            uses: semgrepStep
